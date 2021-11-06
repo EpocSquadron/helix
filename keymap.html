@@ -218,8 +218,8 @@
 <tr><td><code>Alt-;</code></td><td>Flip selection cursor and anchor</td><td><code>flip_selections</code></td></tr>
 <tr><td><code>,</code></td><td>Keep only the primary selection</td><td><code>keep_primary_selection</code></td></tr>
 <tr><td><code>Alt-,</code></td><td>Remove the primary selection</td><td><code>remove_primary_selection</code></td></tr>
-<tr><td><code>C</code></td><td>Copy selection onto the next line</td><td><code>copy_selection_on_next_line</code></td></tr>
-<tr><td><code>Alt-C</code></td><td>Copy selection onto the previous line</td><td><code>copy_selection_on_prev_line</code></td></tr>
+<tr><td><code>C</code></td><td>Copy selection onto the next line (Add cursor below)</td><td><code>copy_selection_on_next_line</code></td></tr>
+<tr><td><code>Alt-C</code></td><td>Copy selection onto the previous line (Add cursor above)</td><td><code>copy_selection_on_prev_line</code></td></tr>
 <tr><td><code>(</code></td><td>Rotate main selection backward</td><td><code>rotate_selections_backward</code></td></tr>
 <tr><td><code>)</code></td><td>Rotate main selection forward</td><td><code>rotate_selections_forward</code></td></tr>
 <tr><td><code>Alt-(</code></td><td>Rotate selection contents backward</td><td><code>rotate_selection_contents_backward</code></td></tr>
@@ -234,13 +234,11 @@
 <tr><td><code>Ctrl-c</code></td><td>Comment/uncomment the selections</td><td><code>toggle_comments</code></td></tr>
 </tbody></table>
 <h3 id="search"><a class="header" href="#search">Search</a></h3>
-<blockquote>
-<p>TODO: The search implementation isn't ideal yet -- we don't support searching in reverse.</p>
-</blockquote>
 <table><thead><tr><th>Key</th><th>Description</th><th>Command</th></tr></thead><tbody>
 <tr><td><code>/</code></td><td>Search for regex pattern</td><td><code>search</code></td></tr>
+<tr><td><code>?</code></td><td>Search for previous pattern</td><td><code>rsearch</code></td></tr>
 <tr><td><code>n</code></td><td>Select next search match</td><td><code>search_next</code></td></tr>
-<tr><td><code>N</code></td><td>Add next search match to selection</td><td><code>extend_search_next</code></td></tr>
+<tr><td><code>N</code></td><td>Select previous search match</td><td><code>search_prev</code></td></tr>
 <tr><td><code>*</code></td><td>Use current selection as the search pattern</td><td><code>search_selection</code></td></tr>
 </tbody></table>
 <h3 id="minor-modes"><a class="header" href="#minor-modes">Minor modes</a></h3>
@@ -281,6 +279,8 @@ over text and not actively editing it).</p>
 <tr><td><code>r</code></td><td>Go to references</td><td><code>goto_reference</code></td></tr>
 <tr><td><code>i</code></td><td>Go to implementation</td><td><code>goto_implementation</code></td></tr>
 <tr><td><code>a</code></td><td>Go to the last accessed/alternate file</td><td><code>goto_last_accessed_file</code></td></tr>
+<tr><td><code>n</code></td><td>Go to next buffer</td><td><code>goto_next_buffer</code></td></tr>
+<tr><td><code>p</code></td><td>Go to previous buffer</td><td><code>goto_previous_buffer</code></td></tr>
 </tbody></table>
 <h4 id="match-mode"><a class="header" href="#match-mode">Match mode</a></h4>
 <p>Enter this mode using <code>m</code> from normal mode. See the relavant section
@@ -361,6 +361,26 @@ implemented for all movement commands yet.</p>
 <tr><td><code>Ctrl-v</code></td><td>Open vertically</td></tr>
 <tr><td><code>Escape</code>, <code>Ctrl-c</code></td><td>Close picker</td></tr>
 </tbody></table>
+<h1 id="prompt"><a class="header" href="#prompt">Prompt</a></h1>
+<p>Keys to use within prompt, Remapping currently not supported.
+| Key                     | Description                                                             |
+| -----                   | -------------                                                           |
+| <code>Escape</code>, <code>Ctrl-c</code>      | Close prompt                                                            |
+| <code>Alt-b</code>, <code>Alt-Left</code>     | Backward a word                                                         |
+| <code>Ctrl-b</code>, <code>Left</code>        | Backward a char                                                         |
+| <code>Alt-f</code>, <code>Alt-Right</code>    | Forward a word                                                          |
+| <code>Ctrl-f</code>, <code>Right</code>       | Forward a char                                                          |
+| <code>Ctrl-e</code>, <code>End</code>         | move prompt end                                                         |
+| <code>Ctrl-a</code>, <code>Home</code>        | move prompt start                                                       |
+| <code>Ctrl-w</code>                | delete previous word                                                    |
+| <code>Ctrl-k</code>                | delete to end of line                                                   |
+| <code>backspace</code>             | delete previous char                                                    |
+| <code>Ctrl-s</code>                | insert a word under doc cursor, may be changed to Ctrl-r Ctrl-w later   |
+| <code>Ctrl-p</code>, <code>Up</code>          | select previous history                                                 |
+| <code>Ctrl-n</code>, <code>Down</code>        | select next history                                                     |
+| <code>Tab</code>                   | slect next completion item                                              |
+| <code>BackTab</code>               | slect previous completion item                                          |
+| <code>Enter</code>                 | Open selected                                                           |</p>
 
                     </main>
 
