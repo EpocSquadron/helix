@@ -150,7 +150,11 @@ brew install helix
 <h3 id="nixos"><a class="header" href="#nixos">NixOS</a></h3>
 <p>A <a href="https://nixos.wiki/wiki/Flakes">flake</a> containing the package is available in
 the project root. The flake can also be used to spin up a reproducible development
-shell for working on Helix.</p>
+shell for working on Helix with <code>nix develop</code>.</p>
+<p>Flake outputs are cached for each push to master using
+<a href="https://www.cachix.org/">Cachix</a>. With Cachix
+<a href="https://docs.cachix.org/installation">installed</a>, <code>cachix use helix</code> will
+configure Nix to use cached outputs when possible.</p>
 <h3 id="arch-linux"><a class="header" href="#arch-linux">Arch Linux</a></h3>
 <p>Releases are available in the <code>community</code> repository.</p>
 <p>A <a href="https://aur.archlinux.org/packages/helix-git/">helix-git</a> package is also available on the AUR, which builds the master branch.</p>
@@ -557,6 +561,10 @@ implemented for all movement commands yet.</p>
 <tr><td><code>:open</code>, <code>:o</code></td><td>Open a file from disk into the current view.</td></tr>
 <tr><td><code>:buffer-close</code>, <code>:bc</code>, <code>:bclose</code></td><td>Close the current buffer.</td></tr>
 <tr><td><code>:buffer-close!</code>, <code>:bc!</code>, <code>:bclose!</code></td><td>Close the current buffer forcefully (ignoring unsaved changes).</td></tr>
+<tr><td><code>:buffer-close-others</code>, <code>:bco</code>, <code>:bcloseother</code></td><td>Close all buffers but the currently focused one.</td></tr>
+<tr><td><code>:buffer-close-others!</code>, <code>:bco!</code>, <code>:bcloseother!</code></td><td>Close all buffers but the currently focused one.</td></tr>
+<tr><td><code>:buffer-close-all</code>, <code>:bca</code>, <code>:bcloseall</code></td><td>Close all buffers, without quiting.</td></tr>
+<tr><td><code>:buffer-close-all!</code>, <code>:bca!</code>, <code>:bcloseall!</code></td><td>Close all buffers forcefully (ignoring unsaved changes), without quiting.</td></tr>
 <tr><td><code>:write</code>, <code>:w</code></td><td>Write changes to disk. Accepts an optional path (:write some/path.txt)</td></tr>
 <tr><td><code>:new</code>, <code>:n</code></td><td>Create a new scratch buffer.</td></tr>
 <tr><td><code>:format</code>, <code>:fmt</code></td><td>Format the file using the LSP formatter.</td></tr>
@@ -629,12 +637,14 @@ specific indent settings, etc see the default
 <tr><td>go</td><td>✓</td><td>✓</td><td>✓</td><td><code>gopls</code></td></tr>
 <tr><td>graphql</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>haskell</td><td>✓</td><td></td><td></td><td><code>haskell-language-server-wrapper</code></td></tr>
+<tr><td>hcl</td><td>✓</td><td></td><td>✓</td><td><code>terraform-ls</code></td></tr>
 <tr><td>html</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>iex</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>java</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>javascript</td><td>✓</td><td></td><td>✓</td><td><code>typescript-language-server</code></td></tr>
 <tr><td>json</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>julia</td><td>✓</td><td></td><td></td><td><code>julia</code></td></tr>
+<tr><td>kotlin</td><td>✓</td><td></td><td></td><td><code>kotlin-language-server</code></td></tr>
 <tr><td>latex</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>lean</td><td>✓</td><td></td><td></td><td><code>lean</code></td></tr>
 <tr><td>ledger</td><td>✓</td><td></td><td></td><td></td></tr>
@@ -712,8 +722,6 @@ hidden = false
 <tr><td><code>scroll-lines</code></td><td>Number of lines to scroll per scroll wheel step.</td><td><code>3</code></td></tr>
 <tr><td><code>shell</code></td><td>Shell to use when running external commands.</td><td>Unix: <code>[&quot;sh&quot;, &quot;-c&quot;]</code><br/>Windows: <code>[&quot;cmd&quot;, &quot;/C&quot;]</code></td></tr>
 <tr><td><code>line-number</code></td><td>Line number display: <code>absolute</code> simply shows each line's number, while <code>relative</code> shows the distance from the current line. When unfocused or in insert mode, <code>relative</code> will still show absolute line numbers.</td><td><code>absolute</code></td></tr>
-<tr><td><code>smart-case</code></td><td>Enable smart case regex searching (case insensitive unless pattern contains upper case characters)</td><td><code>true</code></td></tr>
-<tr><td><code>auto-pairs</code></td><td>Enable automatic insertion of pairs to parenthese, brackets, etc.</td><td><code>true</code></td></tr>
 <tr><td><code>auto-completion</code></td><td>Enable automatic pop up of auto-completion.</td><td><code>true</code></td></tr>
 <tr><td><code>idle-timeout</code></td><td>Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant.</td><td><code>400</code></td></tr>
 <tr><td><code>completion-trigger-len</code></td><td>The min-length of word under cursor to trigger autocompletion</td><td><code>2</code></td></tr>
@@ -742,6 +750,44 @@ available, which is not defined by default.</p>
 <tr><td><code>git-global</code></td><td>Enables reading global .gitignore, whose path is specified in git's config: <code>core.excludefile</code> option.</td><td>true</td></tr>
 <tr><td><code>git-exclude</code></td><td>Enables reading <code>.git/info/exclude</code> files.</td><td>true</td></tr>
 <tr><td><code>max-depth</code></td><td>Set with an integer value for maximum depth to recurse.</td><td>Defaults to <code>None</code>.</td></tr>
+</tbody></table>
+<h3 id="editorauto-pairs-section"><a class="header" href="#editorauto-pairs-section"><code>[editor.auto-pairs]</code> Section</a></h3>
+<p>Enable automatic insertion of pairs to parentheses, brackets, etc. Can be
+a simple boolean value, or a specific mapping of pairs of single characters.</p>
+<table><thead><tr><th>Key</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>false</code></td><td>Completely disable auto pairing, regardless of language-specific settings</td></tr>
+<tr><td><code>true</code></td><td>Use the default pairs: <code>(){}[]''&quot;&quot;``</code></td></tr>
+<tr><td>Mapping of pairs</td><td>e.g. <code>{ &quot;(&quot; =  &quot;)&quot;, &quot;{&quot; = &quot;}&quot;, ... }</code></td></tr>
+</tbody></table>
+<p>Example</p>
+<pre><code class="language-toml">[editor.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'&quot;' = '&quot;'
+'`' = '`'
+'&lt;' = '&gt;'
+</code></pre>
+<p>Additionally, this setting can be used in a language config. Unless
+the editor setting is <code>false</code>, this will override the editor config in
+documents with this language.</p>
+<p>Example <code>languages.toml</code> that adds &lt;&gt; and removes ''</p>
+<pre><code class="language-toml">[[language]]
+name = &quot;rust&quot;
+
+[language.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'&quot;' = '&quot;'
+'`' = '`'
+'&lt;' = '&gt;'
+</code></pre>
+<h3 id="editorsearch-section"><a class="header" href="#editorsearch-section"><code>[editor.search]</code> Section</a></h3>
+<p>Search specific options.</p>
+<table><thead><tr><th>Key</th><th>Description</th><th>Default</th></tr></thead><tbody>
+<tr><td><code>smart-case</code></td><td>Enable smart case regex searching (case insensitive unless pattern contains upper case characters)</td><td><code>true</code></td></tr>
+<tr><td><code>wrap-around</code></td><td>Whether the search should wrap after depleting the matches</td><td><code>true</code></td></tr>
 </tbody></table>
 <h2 id="lsp"><a class="header" href="#lsp">LSP</a></h2>
 <p>To display all language server messages in the status line add the following to your <code>config.toml</code>:</p>
@@ -936,7 +982,12 @@ over it and is merged into the default palette.</p>
 <li>
 <p><code>markup</code></p>
 <ul>
-<li><code>heading</code></li>
+<li><code>heading</code>
+<ul>
+<li><code>marker</code></li>
+<li><code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, <code>5</code>, <code>6</code> - heading text for h1 through h6</li>
+</ul>
+</li>
 <li><code>list</code>
 <ul>
 <li><code>unnumbered</code></li>
@@ -1016,12 +1067,12 @@ over it and is merged into the default palette.</p>
 <tr><td><code>ui.statusline</code></td><td>Statusline</td></tr>
 <tr><td><code>ui.statusline.inactive</code></td><td>Statusline (unfocused document)</td></tr>
 <tr><td><code>ui.popup</code></td><td></td></tr>
+<tr><td><code>ui.popup.info</code></td><td></td></tr>
 <tr><td><code>ui.window</code></td><td></td></tr>
 <tr><td><code>ui.help</code></td><td></td></tr>
 <tr><td><code>ui.text</code></td><td></td></tr>
 <tr><td><code>ui.text.focus</code></td><td></td></tr>
-<tr><td><code>ui.info</code></td><td></td></tr>
-<tr><td><code>ui.info.text</code></td><td></td></tr>
+<tr><td><code>ui.text.info</code></td><td></td></tr>
 <tr><td><code>ui.menu</code></td><td></td></tr>
 <tr><td><code>ui.menu.selected</code></td><td></td></tr>
 <tr><td><code>ui.selection</code></td><td>For selections in the editing area</td></tr>
