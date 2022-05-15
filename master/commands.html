@@ -147,8 +147,8 @@
 <tr><td><code>:buffer-close!</code>, <code>:bc!</code>, <code>:bclose!</code></td><td>Close the current buffer forcefully (ignoring unsaved changes).</td></tr>
 <tr><td><code>:buffer-close-others</code>, <code>:bco</code>, <code>:bcloseother</code></td><td>Close all buffers but the currently focused one.</td></tr>
 <tr><td><code>:buffer-close-others!</code>, <code>:bco!</code>, <code>:bcloseother!</code></td><td>Close all buffers but the currently focused one.</td></tr>
-<tr><td><code>:buffer-close-all</code>, <code>:bca</code>, <code>:bcloseall</code></td><td>Close all buffers, without quiting.</td></tr>
-<tr><td><code>:buffer-close-all!</code>, <code>:bca!</code>, <code>:bcloseall!</code></td><td>Close all buffers forcefully (ignoring unsaved changes), without quiting.</td></tr>
+<tr><td><code>:buffer-close-all</code>, <code>:bca</code>, <code>:bcloseall</code></td><td>Close all buffers, without quitting.</td></tr>
+<tr><td><code>:buffer-close-all!</code>, <code>:bca!</code>, <code>:bcloseall!</code></td><td>Close all buffers forcefully (ignoring unsaved changes), without quitting.</td></tr>
 <tr><td><code>:buffer-next</code>, <code>:bn</code>, <code>:bnext</code></td><td>Go to next buffer.</td></tr>
 <tr><td><code>:buffer-previous</code>, <code>:bp</code>, <code>:bprev</code></td><td>Go to previous buffer.</td></tr>
 <tr><td><code>:write</code>, <code>:w</code></td><td>Write changes to disk. Accepts an optional path (:write some/path.txt)</td></tr>
@@ -156,7 +156,7 @@
 <tr><td><code>:new</code>, <code>:n</code></td><td>Create a new scratch buffer.</td></tr>
 <tr><td><code>:format</code>, <code>:fmt</code></td><td>Format the file using the LSP formatter.</td></tr>
 <tr><td><code>:indent-style</code></td><td>Set the indentation style for editing. ('t' for tabs or 1-8 for number of spaces.)</td></tr>
-<tr><td><code>:line-ending</code></td><td>Set the document's default line ending. Options: crlf, lf, cr, ff, nel.</td></tr>
+<tr><td><code>:line-ending</code></td><td>Set the document's default line ending. Options: crlf, lf.</td></tr>
 <tr><td><code>:earlier</code>, <code>:ear</code></td><td>Jump back to an earlier point in edit history. Accepts a number of steps or a time span.</td></tr>
 <tr><td><code>:later</code>, <code>:lat</code></td><td>Jump to a later point in edit history. Accepts a number of steps or a time span.</td></tr>
 <tr><td><code>:write-quit</code>, <code>:wq</code>, <code>:x</code></td><td>Write changes to disk and close the current view. Accepts an optional path (:wq some/path.txt)</td></tr>
@@ -195,12 +195,17 @@
 <tr><td><code>:tutor</code></td><td>Open the tutorial.</td></tr>
 <tr><td><code>:goto</code>, <code>:g</code></td><td>Go to line number.</td></tr>
 <tr><td><code>:set-language</code>, <code>:lang</code></td><td>Set the language of current buffer.</td></tr>
-<tr><td><code>:set-option</code>, <code>:set</code></td><td>Set a config option at runtime</td></tr>
+<tr><td><code>:set-option</code>, <code>:set</code></td><td>Set a config option at runtime.<br>For example to disable smart case search, use <code>:set search.smart-case false</code>.</td></tr>
+<tr><td><code>:get-option</code>, <code>:get</code></td><td>Get the current value of a config option.</td></tr>
 <tr><td><code>:sort</code></td><td>Sort ranges in selection.</td></tr>
 <tr><td><code>:rsort</code></td><td>Sort ranges in selection in reverse order.</td></tr>
+<tr><td><code>:reflow</code></td><td>Hard-wrap the current selection of lines to a given width.</td></tr>
 <tr><td><code>:tree-sitter-subtree</code>, <code>:ts-subtree</code></td><td>Display tree sitter subtree under cursor, primarily for debugging queries.</td></tr>
 <tr><td><code>:config-reload</code></td><td>Refreshes helix's config.</td></tr>
 <tr><td><code>:config-open</code></td><td>Open the helix config.toml file.</td></tr>
+<tr><td><code>:log-open</code></td><td>Open the helix log file.</td></tr>
+<tr><td><code>:pipe</code></td><td>Pipe each selection to the shell command.</td></tr>
+<tr><td><code>:run-shell-command</code>, <code>:sh</code></td><td>Run a shell command</td></tr>
 </tbody></table>
 
                     </main>

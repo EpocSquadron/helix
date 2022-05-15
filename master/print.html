@@ -180,8 +180,17 @@ cargo install --path helix-term
 </code></pre>
 <p>This will install the <code>hx</code> binary to <code>$HOME/.cargo/bin</code>.</p>
 <p>Helix also needs it's runtime files so make sure to copy/symlink the <code>runtime/</code> directory into the
-config directory (for example <code>~/.config/helix/runtime</code> on Linux/macOS). This location can be overriden
+config directory (for example <code>~/.config/helix/runtime</code> on Linux/macOS). This location can be overridden
 via the <code>HELIX_RUNTIME</code> environment variable.</p>
+<table><thead><tr><th>OS</th><th>command</th></tr></thead><tbody>
+<tr><td>windows</td><td><code>xcopy runtime %AppData%/helix/runtime</code></td></tr>
+<tr><td>linux/macos</td><td><code>ln -s $PWD/runtime ~/.config/helix/runtime</code></td></tr>
+</tbody></table>
+<h2 id="finishing-up-the-installation"><a class="header" href="#finishing-up-the-installation">Finishing up the installation</a></h2>
+<p>To make sure everything is set up as expected you should finally run the helix healthcheck via </p>
+<pre><code>hx --health
+</code></pre>
+<p>For more information on the information displayed in the healthcheck results refer to <a href="https://github.com/helix-editor/helix/wiki/Healthcheck">Healthcheck</a>.</p>
 <h2 id="building-tree-sitter-grammars"><a class="header" href="#building-tree-sitter-grammars">Building tree-sitter grammars</a></h2>
 <p>Tree-sitter grammars must be fetched and compiled if not pre-packaged.
 Fetch grammars with <code>hx --grammar fetch</code> (requires <code>git</code>) and compile them
@@ -242,6 +251,7 @@ on the closest pairs found and selections are not required; use counts to act in
 <tr><td><code>w</code></td><td>Word</td></tr>
 <tr><td><code>W</code></td><td>WORD</td></tr>
 <tr><td><code>(</code>, <code>[</code>, <code>'</code>, etc</td><td>Specified surround pairs</td></tr>
+<tr><td><code>m</code></td><td>Closest surround pair</td></tr>
 <tr><td><code>f</code></td><td>Function</td></tr>
 <tr><td><code>c</code></td><td>Class</td></tr>
 <tr><td><code>a</code></td><td>Argument/parameter</td></tr>
@@ -369,10 +379,10 @@ and therefore requires the corresponding query file to work properly.</p>
 <tr><td><code>K</code></td><td>Keep selections matching the regex</td><td><code>keep_selections</code></td></tr>
 <tr><td><code>Alt-K</code></td><td>Remove selections matching the regex</td><td><code>remove_selections</code></td></tr>
 <tr><td><code>Ctrl-c</code></td><td>Comment/uncomment the selections</td><td><code>toggle_comments</code></td></tr>
-<tr><td><code>Alt-k</code>, <code>Alt-up</code></td><td>Expand selection to parent syntax node (<strong>TS</strong>)</td><td><code>expand_selection</code></td></tr>
-<tr><td><code>Alt-j</code>, <code>Alt-down</code></td><td>Shrink syntax tree object selection (<strong>TS</strong>)</td><td><code>shrink_selection</code></td></tr>
-<tr><td><code>Alt-h</code>, <code>Alt-left</code></td><td>Select previous sibling node in syntax tree (<strong>TS</strong>)</td><td><code>select_prev_sibling</code></td></tr>
-<tr><td><code>Alt-l</code>, <code>Alt-right</code></td><td>Select next sibling node in syntax tree (<strong>TS</strong>)</td><td><code>select_next_sibling</code></td></tr>
+<tr><td><code>Alt-o</code>, <code>Alt-up</code></td><td>Expand selection to parent syntax node (<strong>TS</strong>)</td><td><code>expand_selection</code></td></tr>
+<tr><td><code>Alt-i</code>, <code>Alt-down</code></td><td>Shrink syntax tree object selection (<strong>TS</strong>)</td><td><code>shrink_selection</code></td></tr>
+<tr><td><code>Alt-p</code>, <code>Alt-left</code></td><td>Select previous sibling node in syntax tree (<strong>TS</strong>)</td><td><code>select_prev_sibling</code></td></tr>
+<tr><td><code>Alt-n</code>, <code>Alt-right</code></td><td>Select next sibling node in syntax tree (<strong>TS</strong>)</td><td><code>select_next_sibling</code></td></tr>
 </tbody></table>
 <h3 id="search"><a class="header" href="#search">Search</a></h3>
 <p>Search commands all operate on the <code>/</code> register by default. Use <code>&quot;&lt;char&gt;</code> to operate on a different one.</p>
@@ -435,7 +445,7 @@ over text and not actively editing it).</p>
 <tr><td><code>.</code></td><td>Go to last modification in current file</td><td><code>goto_last_modification</code></td></tr>
 </tbody></table>
 <h4 id="match-mode"><a class="header" href="#match-mode">Match mode</a></h4>
-<p>Enter this mode using <code>m</code> from normal mode. See the relavant section
+<p>Enter this mode using <code>m</code> from normal mode. See the relevant section
 in <a href="./usage.html">Usage</a> for an explanation about <a href="./usage.html#surround">surround</a>
 and <a href="./usage.html#textobject">textobject</a> usage.</p>
 <table><thead><tr><th>Key</th><th>Description</th><th>Command</th></tr></thead><tbody>
@@ -522,9 +532,9 @@ undo-able &quot;save point&quot; until you return to normal mode.</p>
 <tr><td><code>Ctrl-r</code></td><td>Insert a register content</td><td><code>insert_register</code></td></tr>
 <tr><td><code>Ctrl-w</code>, <code>Alt-Backspace</code></td><td>Delete previous word</td><td><code>delete_word_backward</code></td></tr>
 <tr><td><code>Alt-d</code></td><td>Delete next word</td><td><code>delete_word_forward</code></td></tr>
-<tr><td><code>Alt-b</code>, <code>Alt-Left</code></td><td>Backward a word</td><td><code>move_prev_word_end</code></td></tr>
+<tr><td><code>Alt-b</code>, <code>Ctrl-Left</code></td><td>Backward a word</td><td><code>move_prev_word_end</code></td></tr>
 <tr><td><code>Ctrl-b</code>, <code>Left</code></td><td>Backward a char</td><td><code>move_char_left</code></td></tr>
-<tr><td><code>Alt-f</code>, <code>Alt-Right</code></td><td>Forward a word</td><td><code>move_next_word_start</code></td></tr>
+<tr><td><code>Alt-f</code>, <code>Ctrl-Right</code></td><td>Forward a word</td><td><code>move_next_word_start</code></td></tr>
 <tr><td><code>Ctrl-f</code>, <code>Right</code></td><td>Forward a char</td><td><code>move_char_right</code></td></tr>
 <tr><td><code>Ctrl-e</code>, <code>End</code></td><td>Move to line end</td><td><code>goto_line_end_newline</code></td></tr>
 <tr><td><code>Ctrl-a</code>, <code>Home</code></td><td>Move to line start</td><td><code>goto_line_start</code></td></tr>
@@ -598,8 +608,8 @@ you to selectively add search terms to your selections.</p>
 <tr><td><code>:buffer-close!</code>, <code>:bc!</code>, <code>:bclose!</code></td><td>Close the current buffer forcefully (ignoring unsaved changes).</td></tr>
 <tr><td><code>:buffer-close-others</code>, <code>:bco</code>, <code>:bcloseother</code></td><td>Close all buffers but the currently focused one.</td></tr>
 <tr><td><code>:buffer-close-others!</code>, <code>:bco!</code>, <code>:bcloseother!</code></td><td>Close all buffers but the currently focused one.</td></tr>
-<tr><td><code>:buffer-close-all</code>, <code>:bca</code>, <code>:bcloseall</code></td><td>Close all buffers, without quiting.</td></tr>
-<tr><td><code>:buffer-close-all!</code>, <code>:bca!</code>, <code>:bcloseall!</code></td><td>Close all buffers forcefully (ignoring unsaved changes), without quiting.</td></tr>
+<tr><td><code>:buffer-close-all</code>, <code>:bca</code>, <code>:bcloseall</code></td><td>Close all buffers, without quitting.</td></tr>
+<tr><td><code>:buffer-close-all!</code>, <code>:bca!</code>, <code>:bcloseall!</code></td><td>Close all buffers forcefully (ignoring unsaved changes), without quitting.</td></tr>
 <tr><td><code>:buffer-next</code>, <code>:bn</code>, <code>:bnext</code></td><td>Go to next buffer.</td></tr>
 <tr><td><code>:buffer-previous</code>, <code>:bp</code>, <code>:bprev</code></td><td>Go to previous buffer.</td></tr>
 <tr><td><code>:write</code>, <code>:w</code></td><td>Write changes to disk. Accepts an optional path (:write some/path.txt)</td></tr>
@@ -607,7 +617,7 @@ you to selectively add search terms to your selections.</p>
 <tr><td><code>:new</code>, <code>:n</code></td><td>Create a new scratch buffer.</td></tr>
 <tr><td><code>:format</code>, <code>:fmt</code></td><td>Format the file using the LSP formatter.</td></tr>
 <tr><td><code>:indent-style</code></td><td>Set the indentation style for editing. ('t' for tabs or 1-8 for number of spaces.)</td></tr>
-<tr><td><code>:line-ending</code></td><td>Set the document's default line ending. Options: crlf, lf, cr, ff, nel.</td></tr>
+<tr><td><code>:line-ending</code></td><td>Set the document's default line ending. Options: crlf, lf.</td></tr>
 <tr><td><code>:earlier</code>, <code>:ear</code></td><td>Jump back to an earlier point in edit history. Accepts a number of steps or a time span.</td></tr>
 <tr><td><code>:later</code>, <code>:lat</code></td><td>Jump to a later point in edit history. Accepts a number of steps or a time span.</td></tr>
 <tr><td><code>:write-quit</code>, <code>:wq</code>, <code>:x</code></td><td>Write changes to disk and close the current view. Accepts an optional path (:wq some/path.txt)</td></tr>
@@ -646,12 +656,17 @@ you to selectively add search terms to your selections.</p>
 <tr><td><code>:tutor</code></td><td>Open the tutorial.</td></tr>
 <tr><td><code>:goto</code>, <code>:g</code></td><td>Go to line number.</td></tr>
 <tr><td><code>:set-language</code>, <code>:lang</code></td><td>Set the language of current buffer.</td></tr>
-<tr><td><code>:set-option</code>, <code>:set</code></td><td>Set a config option at runtime</td></tr>
+<tr><td><code>:set-option</code>, <code>:set</code></td><td>Set a config option at runtime.<br>For example to disable smart case search, use <code>:set search.smart-case false</code>.</td></tr>
+<tr><td><code>:get-option</code>, <code>:get</code></td><td>Get the current value of a config option.</td></tr>
 <tr><td><code>:sort</code></td><td>Sort ranges in selection.</td></tr>
 <tr><td><code>:rsort</code></td><td>Sort ranges in selection in reverse order.</td></tr>
+<tr><td><code>:reflow</code></td><td>Hard-wrap the current selection of lines to a given width.</td></tr>
 <tr><td><code>:tree-sitter-subtree</code>, <code>:ts-subtree</code></td><td>Display tree sitter subtree under cursor, primarily for debugging queries.</td></tr>
 <tr><td><code>:config-reload</code></td><td>Refreshes helix's config.</td></tr>
 <tr><td><code>:config-open</code></td><td>Open the helix config.toml file.</td></tr>
+<tr><td><code>:log-open</code></td><td>Open the helix log file.</td></tr>
+<tr><td><code>:pipe</code></td><td>Pipe each selection to the shell command.</td></tr>
+<tr><td><code>:run-shell-command</code>, <code>:sh</code></td><td>Run a shell command</td></tr>
 </tbody></table>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="language-support"><a class="header" href="#language-support">Language Support</a></h1>
 <p>The following languages and Language Servers are supported. In order to use
@@ -664,11 +679,14 @@ Languages</a> guide for more language configuration information.</p>
 <tr><td>bash</td><td>✓</td><td></td><td></td><td><code>bash-language-server</code></td></tr>
 <tr><td>c</td><td>✓</td><td>✓</td><td>✓</td><td><code>clangd</code></td></tr>
 <tr><td>c-sharp</td><td>✓</td><td></td><td></td><td><code>OmniSharp</code></td></tr>
+<tr><td>cairo</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>cmake</td><td>✓</td><td>✓</td><td>✓</td><td><code>cmake-language-server</code></td></tr>
 <tr><td>comment</td><td>✓</td><td></td><td></td><td></td></tr>
+<tr><td>cpon</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>cpp</td><td>✓</td><td>✓</td><td>✓</td><td><code>clangd</code></td></tr>
 <tr><td>css</td><td>✓</td><td></td><td></td><td><code>vscode-css-language-server</code></td></tr>
 <tr><td>dart</td><td>✓</td><td></td><td>✓</td><td><code>dart</code></td></tr>
+<tr><td>devicetree</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>dockerfile</td><td>✓</td><td></td><td></td><td><code>docker-langserver</code></td></tr>
 <tr><td>eex</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>ejs</td><td>✓</td><td></td><td></td><td></td></tr>
@@ -677,14 +695,20 @@ Languages</a> guide for more language configuration information.</p>
 <tr><td>erb</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>erlang</td><td>✓</td><td></td><td></td><td><code>erlang_ls</code></td></tr>
 <tr><td>fish</td><td>✓</td><td>✓</td><td>✓</td><td></td></tr>
+<tr><td>gdscript</td><td>✓</td><td></td><td>✓</td><td></td></tr>
+<tr><td>git-attributes</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>git-commit</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>git-config</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>git-diff</td><td>✓</td><td></td><td></td><td></td></tr>
+<tr><td>git-ignore</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>git-rebase</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>gleam</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>glsl</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>go</td><td>✓</td><td>✓</td><td>✓</td><td><code>gopls</code></td></tr>
+<tr><td>gomod</td><td>✓</td><td></td><td></td><td><code>gopls</code></td></tr>
+<tr><td>gowork</td><td>✓</td><td></td><td></td><td><code>gopls</code></td></tr>
 <tr><td>graphql</td><td>✓</td><td></td><td></td><td></td></tr>
+<tr><td>hare</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>haskell</td><td>✓</td><td></td><td></td><td><code>haskell-language-server-wrapper</code></td></tr>
 <tr><td>hcl</td><td>✓</td><td></td><td>✓</td><td><code>terraform-ls</code></td></tr>
 <tr><td>heex</td><td>✓</td><td></td><td></td><td></td></tr>
@@ -705,10 +729,14 @@ Languages</a> guide for more language configuration information.</p>
 <tr><td>lua</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>make</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>markdown</td><td>✓</td><td></td><td></td><td></td></tr>
+<tr><td>meson</td><td>✓</td><td></td><td>✓</td><td></td></tr>
 <tr><td>mint</td><td></td><td></td><td></td><td><code>mint</code></td></tr>
+<tr><td>nickel</td><td>✓</td><td></td><td>✓</td><td><code>nls</code></td></tr>
 <tr><td>nix</td><td>✓</td><td></td><td>✓</td><td><code>rnix-lsp</code></td></tr>
+<tr><td>nu</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>ocaml</td><td>✓</td><td></td><td>✓</td><td><code>ocamllsp</code></td></tr>
 <tr><td>ocaml-interface</td><td>✓</td><td></td><td></td><td><code>ocamllsp</code></td></tr>
+<tr><td>odin</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>org</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>perl</td><td>✓</td><td>✓</td><td>✓</td><td></td></tr>
 <tr><td>php</td><td>✓</td><td>✓</td><td>✓</td><td><code>intelephense</code></td></tr>
@@ -721,7 +749,7 @@ Languages</a> guide for more language configuration information.</p>
 <tr><td>rescript</td><td>✓</td><td>✓</td><td></td><td><code>rescript-language-server</code></td></tr>
 <tr><td>rmarkdown</td><td>✓</td><td></td><td>✓</td><td><code>R</code></td></tr>
 <tr><td>ron</td><td>✓</td><td></td><td>✓</td><td></td></tr>
-<tr><td>ruby</td><td>✓</td><td></td><td>✓</td><td><code>solargraph</code></td></tr>
+<tr><td>ruby</td><td>✓</td><td>✓</td><td>✓</td><td><code>solargraph</code></td></tr>
 <tr><td>rust</td><td>✓</td><td>✓</td><td>✓</td><td><code>rust-analyzer</code></td></tr>
 <tr><td>scala</td><td>✓</td><td></td><td>✓</td><td><code>metals</code></td></tr>
 <tr><td>solidity</td><td>✓</td><td></td><td></td><td><code>solc</code></td></tr>
@@ -729,14 +757,16 @@ Languages</a> guide for more language configuration information.</p>
 <tr><td>svelte</td><td>✓</td><td></td><td>✓</td><td><code>svelteserver</code></td></tr>
 <tr><td>swift</td><td>✓</td><td></td><td></td><td><code>sourcekit-lsp</code></td></tr>
 <tr><td>tablegen</td><td>✓</td><td>✓</td><td>✓</td><td></td></tr>
-<tr><td>toml</td><td>✓</td><td></td><td></td><td></td></tr>
+<tr><td>tfvars</td><td></td><td></td><td></td><td><code>terraform-ls</code></td></tr>
+<tr><td>toml</td><td>✓</td><td></td><td></td><td><code>taplo</code></td></tr>
 <tr><td>tsq</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>tsx</td><td>✓</td><td></td><td></td><td><code>typescript-language-server</code></td></tr>
 <tr><td>twig</td><td>✓</td><td></td><td></td><td></td></tr>
 <tr><td>typescript</td><td>✓</td><td></td><td>✓</td><td><code>typescript-language-server</code></td></tr>
+<tr><td>vala</td><td>✓</td><td></td><td></td><td><code>vala-language-server</code></td></tr>
 <tr><td>vue</td><td>✓</td><td></td><td></td><td><code>vls</code></td></tr>
 <tr><td>wgsl</td><td>✓</td><td></td><td></td><td></td></tr>
-<tr><td>yaml</td><td>✓</td><td></td><td>✓</td><td></td></tr>
+<tr><td>yaml</td><td>✓</td><td></td><td>✓</td><td><code>yaml-language-server</code></td></tr>
 <tr><td>zig</td><td>✓</td><td></td><td>✓</td><td><code>zls</code></td></tr>
 </tbody></table>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-from-vim"><a class="header" href="#migrating-from-vim">Migrating from Vim</a></h1>
@@ -783,11 +813,14 @@ hidden = false
 <tr><td><code>scroll-lines</code></td><td>Number of lines to scroll per scroll wheel step.</td><td><code>3</code></td></tr>
 <tr><td><code>shell</code></td><td>Shell to use when running external commands.</td><td>Unix: <code>[&quot;sh&quot;, &quot;-c&quot;]</code><br/>Windows: <code>[&quot;cmd&quot;, &quot;/C&quot;]</code></td></tr>
 <tr><td><code>line-number</code></td><td>Line number display: <code>absolute</code> simply shows each line's number, while <code>relative</code> shows the distance from the current line. When unfocused or in insert mode, <code>relative</code> will still show absolute line numbers.</td><td><code>absolute</code></td></tr>
+<tr><td><code>gutters</code></td><td>Gutters to display: Available are <code>diagnostics</code> and <code>line-numbers</code>, note that <code>diagnostics</code> also includes other features like breakpoints</td><td><code>[&quot;diagnostics&quot;, &quot;line-numbers&quot;]</code></td></tr>
 <tr><td><code>auto-completion</code></td><td>Enable automatic pop up of auto-completion.</td><td><code>true</code></td></tr>
+<tr><td><code>auto-format</code></td><td>Enable automatic formatting on save.</td><td><code>true</code></td></tr>
 <tr><td><code>idle-timeout</code></td><td>Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant.</td><td><code>400</code></td></tr>
 <tr><td><code>completion-trigger-len</code></td><td>The min-length of word under cursor to trigger autocompletion</td><td><code>2</code></td></tr>
 <tr><td><code>auto-info</code></td><td>Whether to display infoboxes</td><td><code>true</code></td></tr>
 <tr><td><code>true-color</code></td><td>Set to <code>true</code> to override automatic detection of terminal truecolor support in the event of a false negative.</td><td><code>false</code></td></tr>
+<tr><td><code>rulers</code></td><td>List of column positions at which to display the rulers. Can be overridden by language specific <code>rulers</code> in <code>languages.toml</code> file.</td><td><code>[]</code></td></tr>
 </tbody></table>
 <h3 id="editorlsp-section"><a class="header" href="#editorlsp-section"><code>[editor.lsp]</code> Section</a></h3>
 <table><thead><tr><th>Key</th><th>Description</th><th>Default</th></tr></thead><tbody>
@@ -821,14 +854,14 @@ available, which is not defined by default.</p>
 <tr><td><code>max-depth</code></td><td>Set with an integer value for maximum depth to recurse.</td><td>Defaults to <code>None</code>.</td></tr>
 </tbody></table>
 <h3 id="editorauto-pairs-section"><a class="header" href="#editorauto-pairs-section"><code>[editor.auto-pairs]</code> Section</a></h3>
-<p>Enable automatic insertion of pairs to parentheses, brackets, etc. Can be
-a simple boolean value, or a specific mapping of pairs of single characters.</p>
-<table><thead><tr><th>Key</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>false</code></td><td>Completely disable auto pairing, regardless of language-specific settings</td></tr>
-<tr><td><code>true</code></td><td>Use the default pairs: <code>(){}[]''&quot;&quot;``</code></td></tr>
-<tr><td>Mapping of pairs</td><td>e.g. <code>{ &quot;(&quot; =  &quot;)&quot;, &quot;{&quot; = &quot;}&quot;, ... }</code></td></tr>
-</tbody></table>
-<p>Example</p>
+<p>Enables automatic insertion of pairs to parentheses, brackets, etc. Can be a
+simple boolean value, or a specific mapping of pairs of single characters.</p>
+<p>To disable auto-pairs altogether, set <code>auto-pairs</code> to <code>false</code>:</p>
+<pre><code class="language-toml">[editor]
+auto-pairs = false # defaults to `true`
+</code></pre>
+<p>The default pairs are <code>(){}[]''&quot;&quot;``</code>, but these can be customized by
+setting <code>auto-pairs</code> to a TOML table:</p>
 <pre><code class="language-toml">[editor.auto-pairs]
 '(' = ')'
 '{' = '}'
@@ -858,6 +891,27 @@ name = &quot;rust&quot;
 <tr><td><code>smart-case</code></td><td>Enable smart case regex searching (case insensitive unless pattern contains upper case characters)</td><td><code>true</code></td></tr>
 <tr><td><code>wrap-around</code></td><td>Whether the search should wrap after depleting the matches</td><td><code>true</code></td></tr>
 </tbody></table>
+<h3 id="editorwhitespace-section"><a class="header" href="#editorwhitespace-section"><code>[editor.whitespace]</code> Section</a></h3>
+<p>Options for rendering whitespace with visible characters. Use <code>:set whitespace.render all</code> to temporarily enable visible whitespace.</p>
+<table><thead><tr><th>Key</th><th>Description</th><th>Default</th></tr></thead><tbody>
+<tr><td><code>render</code></td><td>Whether to render whitespace. May either be <code>&quot;all&quot;</code> or <code>&quot;none&quot;</code>, or a table with sub-keys <code>space</code>, <code>tab</code>, and <code>newline</code>.</td><td><code>&quot;none&quot;</code></td></tr>
+<tr><td><code>characters</code></td><td>Literal characters to use when rendering whitespace. Sub-keys may be any of <code>tab</code>, <code>space</code>, <code>nbsp</code> or <code>newline</code></td><td>See example below</td></tr>
+</tbody></table>
+<p>Example</p>
+<pre><code class="language-toml">[editor.whitespace]
+render = &quot;all&quot;
+# or control each character
+[editor.whitespace.render]
+space = &quot;all&quot;
+tab = &quot;all&quot;
+newline = &quot;none&quot;
+
+[editor.whitespace.characters]
+space = &quot;·&quot;
+nbsp = &quot;⍽&quot;
+tab = &quot;→&quot;
+newline = &quot;⏎&quot;
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
 <p>To use a theme add <code>theme = &quot;&lt;name&gt;&quot;</code> to your <a href="./configuration.html"><code>config.toml</code></a> at the very top of the file before the first section or select it during runtime using <code>:theme &lt;name&gt;</code>.</p>
 <h2 id="creating-a-theme"><a class="header" href="#creating-a-theme">Creating a theme</a></h2>
@@ -1034,7 +1088,7 @@ over it and is merged into the default palette.</p>
 <li><code>builtin</code></li>
 <li><code>method</code></li>
 <li><code>macro</code></li>
-<li><code>special</code> (preprocesor in C)</li>
+<li><code>special</code> (preprocessor in C)</li>
 </ul>
 </li>
 <li>
@@ -1126,19 +1180,21 @@ over it and is merged into the default palette.</p>
 <tr><td><code>ui.cursor.select</code></td><td></td></tr>
 <tr><td><code>ui.cursor.match</code></td><td>Matching bracket etc.</td></tr>
 <tr><td><code>ui.cursor.primary</code></td><td>Cursor with primary selection</td></tr>
-<tr><td><code>ui.linenr</code></td><td></td></tr>
-<tr><td><code>ui.linenr.selected</code></td><td></td></tr>
+<tr><td><code>ui.linenr</code></td><td>Line numbers</td></tr>
+<tr><td><code>ui.linenr.selected</code></td><td>Line number for the line the cursor is on</td></tr>
 <tr><td><code>ui.statusline</code></td><td>Statusline</td></tr>
 <tr><td><code>ui.statusline.inactive</code></td><td>Statusline (unfocused document)</td></tr>
-<tr><td><code>ui.popup</code></td><td></td></tr>
-<tr><td><code>ui.popup.info</code></td><td></td></tr>
-<tr><td><code>ui.window</code></td><td></td></tr>
-<tr><td><code>ui.help</code></td><td></td></tr>
-<tr><td><code>ui.text</code></td><td></td></tr>
+<tr><td><code>ui.popup</code></td><td>Documentation popups (e.g space-k)</td></tr>
+<tr><td><code>ui.popup.info</code></td><td>Prompt for multiple key options</td></tr>
+<tr><td><code>ui.window</code></td><td>Border lines separating splits</td></tr>
+<tr><td><code>ui.help</code></td><td>Description box for commands</td></tr>
+<tr><td><code>ui.text</code></td><td>Command prompts, popup text, etc.</td></tr>
 <tr><td><code>ui.text.focus</code></td><td></td></tr>
-<tr><td><code>ui.text.info</code></td><td></td></tr>
-<tr><td><code>ui.menu</code></td><td></td></tr>
-<tr><td><code>ui.menu.selected</code></td><td></td></tr>
+<tr><td><code>ui.text.info</code></td><td>The key: command text in <code>ui.popup.info</code> boxes</td></tr>
+<tr><td><code>ui.virtual.ruler</code></td><td>Ruler columns (see the <a href="./configuration.html#editor-section"><code>editor.rulers</code> config</a>)</td></tr>
+<tr><td><code>ui.virtual.whitespace</code></td><td>Visible white-space characters</td></tr>
+<tr><td><code>ui.menu</code></td><td>Code and command completion menus</td></tr>
+<tr><td><code>ui.menu.selected</code></td><td>Selected autocomplete item</td></tr>
 <tr><td><code>ui.selection</code></td><td>For selections in the editing area</td></tr>
 <tr><td><code>ui.selection.primary</code></td><td></td></tr>
 <tr><td><code>warning</code></td><td>Diagnostics warning (gutter)</td></tr>
@@ -1205,6 +1261,7 @@ j = { k = &quot;normal_mode&quot; } # Maps `jk` to exit insert mode
 <div style="break-before: page; page-break-before: always;"></div><h1 id="hooks"><a class="header" href="#hooks">Hooks</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="languages"><a class="header" href="#languages">Languages</a></h1>
 <p>Language-specific settings and settings for particular language servers can be configured in a <code>languages.toml</code> file placed in your <a href="./configuration.html">configuration directory</a>. Helix actually uses two <code>languages.toml</code> files, the <a href="https://github.com/helix-editor/helix/blob/master/languages.toml">first one</a> is in the main helix repository; it contains the default settings for each language and is included in the helix binary at compile time. Users who want to see the available settings and options can either reference the helix repo's <code>languages.toml</code> file, or consult the table in the <a href="./guides/adding_languages.html">adding languages</a> section.</p>
+<p>A local <code>languages.toml</code> can be created within a <code>.helix</code> directory. Its settings will be merged with both the global and default configs.</p>
 <p>Changes made to the <code>languages.toml</code> file in a user's <a href="./configuration.html">configuration directory</a> are merged with helix's defaults on start-up, such that a user's settings will take precedence over defaults in the event of a collision. For example, the default <code>languages.toml</code> sets rust's <code>auto-format</code> to <code>true</code>. If a user wants to disable auto-format, they can change the <code>languages.toml</code> in their <a href="./configuration.html">configuration directory</a> to make the rust entry read like the example below; the new key/value pair <code>auto-format = false</code> will override the default when the two sets of settings are merged on start-up:</p>
 <pre><code class="language-toml"># in &lt;config_dir&gt;/helix/languages.toml
 
@@ -1233,7 +1290,7 @@ use-grammars = { except = [ &quot;yaml&quot;, &quot;json&quot; ] }
 <p>When omitted, all grammars are fetched and built.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="guides"><a class="header" href="#guides">Guides</a></h1>
 <p>This section contains guides for adding new language server configurations,
-tree-sitter grammers, textobject queries, etc.</p>
+tree-sitter grammars, textobject queries, etc.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="adding-languages"><a class="header" href="#adding-languages">Adding languages</a></h1>
 <h2 id="language-configuration"><a class="header" href="#language-configuration">Language configuration</a></h2>
 <p>To add a new language, you need to add a <code>language</code> entry to the
@@ -1311,9 +1368,6 @@ the last matching query supersedes the ones before it. See
 <li>
 <p>If a parser is segfaulting or you want to remove the parser, make sure to remove the compiled parser in <code>runtime/grammar/&lt;name&gt;.so</code></p>
 </li>
-<li>
-<p>The indents query is <code>indents.toml</code>, <em>not</em> <code>indents.scm</code>. See <a href="https://github.com/helix-editor/helix/issues/114">this</a> issue for more information.</p>
-</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="adding-textobject-queries"><a class="header" href="#adding-textobject-queries">Adding Textobject Queries</a></h1>
 <p>Textobjects that are language specific (<a href="guides/../usage.html#textobjects">like functions, classes, etc</a>)
@@ -1388,7 +1442,7 @@ changed by using a <code>#set!</code> declaration anywhere in the pattern:</p>
 <ul>
 <li>
 <p><code>@indent</code> (default scope <code>tail</code>):
-Increase the indent level by 1. Multiple occurences in the same line
+Increase the indent level by 1. Multiple occurrences in the same line
 don't stack. If there is at least one <code>@indent</code> and one <code>@outdent</code>
 capture on the same line, the indent level isn't changed at all.</p>
 </li>
